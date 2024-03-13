@@ -16,6 +16,6 @@ class ReviewDetail extends Model
     ];
 
     public function review() {
-        return $this->belongsTo('App\Models\Review');
+        return $this->belongsTo(Review::class);
     }
 }

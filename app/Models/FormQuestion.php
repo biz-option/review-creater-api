@@ -18,6 +18,6 @@ class FormQuestion extends Model
     ];
 
     public function form() {
-        return $this->belongsTo('App\Models\From');
+        return $this->belongsTo(Form::class);
     }
 }

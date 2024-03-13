@@ -15,6 +15,9 @@ class FormQuestionController extends Controller
     function create(FormQuestionRequest $request, String $formCode) {
         try {
             $form = Form::where('code', $formCode)->first();
+            if (!$form) {
+                return response()->json(['message' => 'Form not found'], 404);
+            }
             $formQuestions = FormQuestion::where('form_id', $form->id)->get();
             $formQuestion = new FormQuestion();
             $formQuestion->form_id = $form->id;
@@ -29,7 +32,7 @@ class FormQuestionController extends Controller
     }
     
     function destroy(Request $request, Integer $formQuestionId) {
-        $formQuestion = FormQuestion::find('code', $formCode);
+        $formQuestion = FormQuestion::find($formQuestionId);
         if (!$formQuestion) {
             return response()->json(['message' => 'FormQuestion not found'], 404);
         }

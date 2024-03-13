@@ -32,7 +32,7 @@ class FormQuestionRequest extends FormRequest
     public function messages()
     {
       return [
-            'question.require' => '質問を入力してください。',
+            'question.required' => '質問を入力してください。',
             'question_type.in' => 'フォームタイプが不正です。',
       ];
     }
