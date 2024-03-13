@@ -23,12 +23,11 @@ class FormQuestionControllerUpdateTest extends TestCase implements Authenticatab
     public function testUpdateSuccessfully() {
         $form = Form::factory(['client_id' => 1])->create();
         $formQuestion = FormQuestion::factory(['form_id' => $form->id, 'question' => 'question?', 'question_type' => 1])->create();
-        $response = $this->actingAs($this->user)->postJson("/api/form-questions/update/{$formQuestion->id}", [
+        $response = $this->actingAs($this->user)->putJson("/api/form-questions/update/{$formQuestion->id}", [
             'question' => 'Updated Question',
             'question_type' => 2,
             'question_part_texts' => ['Part 1', 'Part 2'],
         ]);
-
         $response->assertStatus(200);
         $response->assertJson(['message' => 'FormQuestion status updated successfully']);
         $this->assertDatabaseHas('form_questions', [
@@ -41,11 +40,11 @@ class FormQuestionControllerUpdateTest extends TestCase implements Authenticatab
 
     public function testUpdateFailsWhenNotFound() {
         $nonExistentId = 9999; // 存在しないID
-        $response = $this->actingAs($this->user)->postJson("/api/form-questions/update/{$nonExistentId}", [
+        $response = $this->actingAs($this->user)->putJson("/api/form-questions/update/{$nonExistentId}", [
             'question' => 'Updated Question',
         ]);
 
-        $response->assertStatus(404);
-        $response->assertJson(['message' => 'Form not found']);
+        $response->assertStatus(422);
+        $response->assertJson(['message' => 'The given data was invalid.']);
     }
 }

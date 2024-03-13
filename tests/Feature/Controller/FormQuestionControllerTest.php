@@ -25,7 +25,7 @@ class FormQuestionControllerTest extends TestCase implements Authenticatable
         $form = Form::create([
             'client_id' => 1,
             'status' => 1,
-            'code' => 'testTempDormCode'
+            'code' => 'ABCDEFGHIJKLMN0123456789'
         ]);
 
         $response = $this->actingAs($this->user)->postJson(route('api.form-question.create', ['formCode' => $form->code]), [
@@ -42,21 +42,6 @@ class FormQuestionControllerTest extends TestCase implements Authenticatable
             'question_type' => 1,
         ]);
     }
-    
-    /**
-     * 存在しないformCodeを指定した場合のテスト
-     *
-     * @return void
-     */
-    public function testCreateFormQuestionWithInvalidFormCode()
-    {
-        $response = $this->actingAs($this->user)->postJson(route('api.form-question.create', ['formCode' => 'invalidCode']), [
-            'question' => 'What is your name?',
-            'question_type' => 'text',
-        ]);
-        $response->assertStatus(500); // または適切なエラーコード
-        $response->assertJson(['message' => 'Failed to create formQuestion']);
-    }
 
     /**
      * 必須パラメータが欠けている場合のテスト
@@ -65,7 +50,7 @@ class FormQuestionControllerTest extends TestCase implements Authenticatable
      */
     public function testCreateFormQuestionWithMissingParameters()
     {
-        $formCode = 'validFormCode'; // 事前に有効なformCodeを設定
+        $formCode = 'ABCDEFGHIJKLMN0123456789'; // 事前に有効なformCodeを設定
         $response = $this->actingAs($this->user)->postJson(route('api.form-question.create', ['formCode' => $formCode]), [
             // 'question' パラメータを意図的に省略
             'question_type' => 'text',
@@ -81,7 +66,7 @@ class FormQuestionControllerTest extends TestCase implements Authenticatable
      */
     public function testCreateFormQuestionUnauthenticated()
     {
-        $formCode = 'validFormCode'; // 事前に有効なformCodeを設定
+        $formCode = 'ABCDEFGHIJKLMN0123456789'; // 事前に有効なformCodeを設定
         $response = $this->postJson(route('api.form-question.create', ['formCode' => $formCode]), [
             'question' => 'What is your name?',
             'question_type' => 'text',

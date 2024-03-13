@@ -17,25 +17,25 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
-// ユーザー情報取得用のルート
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// フォーム関連のルート
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/forms/create/{clientId}', [FormController::class, 'create'])->name('api.form.create');
-    Route::delete('/forms/destroy/{formCode}', [FormController::class, 'destroy'])->name('api.form.destroy');
-    Route::put('/forms/update/{formCode}', [FormController::class, 'update'])->name('api.form.update');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    })->name('api.user.get');
+
+    Route::controller(FormController::class)->group(function () {
+        Route::post('/forms/create/{clientId}', 'create')->name('api.form.create');
+//        Route::post('/forms/create/{clientId}', 'create')->where('clientId', '[0-9]+')->name('api.form.create');
+        Route::delete('/forms/destroy/{formCode}', 'destroy')->where('formCode', '[0-9A-Z]{24}')->name('api.form.destroy');
+        Route::put('/forms/update/{formCode}', 'update')->where('formCode', '[0-9A-Z]{24}')->name('api.form.update');
+    });
+
+    Route::controller(FormQuestionController::class)->group(function () {
+        Route::post('/form-questions/create/{formCode}', 'create')->where('formCode', '[0-9A-Z]{24}')->name('api.form-question.create');
+        Route::delete('/form-questions/destroy/{formQuestionId}', 'destroy')->where('formQuestionId', '[0-9]+')->name('api.form-question.destroy');
+        Route::put('/form-questions/update/{formQuestionId}', 'update')->where('formQuestionId', '[0-9]+')->name('api.form-question.update');
+        Route::post('/form-questions/change-sort-order/{formQuestionId}', 'changeSortOrder')->where('formQuestionId', '[0-9]+')->name('api.form-question.change-sort-order');
+    });
 });
 
-// フォーム質問関連のルート
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/form-questions/create/{formCode}', [FormQuestionController::class, 'create'])->name('api.form-question.create');
-    Route::delete('/form-questions/destroy/{formQuestionId}', [FormQuestionController::class, 'destroy'])->name('api.form-question.destroy');
-    Route::post('/form-questions/update/{formQuestionId}', [FormQuestionController::class, 'update'])->name('api.form-question.update');
-    Route::post('/form-questions/change-sort-order/{formQuestionId}', [FormQuestionController::class, 'changeSortOrder'])->name('api.form-question.change-sort-order');
-});
-
-Route::get('/forms/{formCode}', [FormController::class, 'get'])->name('api.form.get');
-Route::post('/reviews/{formCode}', [ReviewController::class, 'save'])->name('api.review.save');
+Route::get('/forms/{formCode}', [FormController::class, 'get'])->where('formCode', '[0-9A-Z]{24}')->name('api.form.get');
+Route::post('/reviews/{formCode}', [ReviewController::class, 'save'])->where('formCode', '[0-9A-Z]{24}')->name('api.review.save');

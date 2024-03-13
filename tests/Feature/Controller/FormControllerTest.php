@@ -24,7 +24,7 @@ class FormControllerTest extends TestCase implements Authenticatable
     {
         $form = Form::create([
             'client_id' => 1,
-            'code' => 'testFormCode',
+            'code' => 'ABCDEFGHIJKLMN0123456789', // 0-9A-Zの24文字
             'status' => 1,
         ]);
 
@@ -34,8 +34,7 @@ class FormControllerTest extends TestCase implements Authenticatable
             'sort_order' => 1,
         ]);
 
-        // $response = $this->json('GET', '/api/form', ['formCode' => 'testFormCode']);
-        $response = $this->json('GET', '/api/forms/testFormCode');
+        $response = $this->json('GET', '/api/forms/' . $form->code);
 
         // ステータスコードとレスポンスの構造を検証
         $response->assertStatus(200)
@@ -43,7 +42,7 @@ class FormControllerTest extends TestCase implements Authenticatable
                     'form' => [
                         'id' => $form->id,
                         'client_id' => 1,
-                        'code' => 'testFormCode',
+                        'code' => 'ABCDEFGHIJKLMN0123456789',
                         'status' => 1,
                     ],
                      'formQuestions' => [
@@ -97,9 +96,8 @@ class FormControllerTest extends TestCase implements Authenticatable
     
     public function testDestroyFormNotFound()
     {
-        $user = User::factory()->create(); // テスト用ユーザーを作成
-        $notExistFormCode = 9999999999999999999;
-        $response = $this->actingAs($user)->deleteJson('/api/forms/destroy/'. $notExistFormCode); // actingAsを使用してユーザーを認証
+        $notExistFormCode = 'ABCDEFGHIJKLMN0123456789'; // formを生成してないのでそもそもformが存在しない
+        $response = $this->actingAs($this->user)->deleteJson('/api/forms/destroy/'. $notExistFormCode); // actingAsを使用してユーザーを認証
         $response->assertStatus(404)
                 ->assertJson(['message' => 'Form not found']);
     }
@@ -110,7 +108,7 @@ class FormControllerTest extends TestCase implements Authenticatable
         $testClientId = 1;
         $form = Form::create([
             'client_id' => $testClientId,
-            'code' => 'testCode',
+            'code' => 'ABCDEFGHIJKLMN0123456789',
             'status' => 1,
         ]);
 
@@ -132,7 +130,8 @@ class FormControllerTest extends TestCase implements Authenticatable
 
     public function testUpdateFormNotFound()
     {
-        $response = $this->actingAs($this->user)->putJson('/api/forms/update/nonexistentcode', ['status' => 2]);
+        $notExistFormCode = 'ABCDEFGHIJKLMN0123456789'; // formを生成してないのでそもそもformが存在しない
+        $response = $this->actingAs($this->user)->putJson("/api/forms/update/{$notExistFormCode}", ['status' => 2]);
         $response->assertStatus(404)
                  ->assertJson(['message' => 'Form not found']);
     }
@@ -143,7 +142,7 @@ class FormControllerTest extends TestCase implements Authenticatable
         // テスト用のフォームを作成
         $form = Form::create([
             'client_id' => $tmpClientId,
-            'code' => 'testCode',
+            'code' => 'ABCDEFGHIJKLMN0123456789',
             'status' => 1,
         ]);
 

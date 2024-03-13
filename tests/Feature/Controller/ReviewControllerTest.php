@@ -25,7 +25,7 @@ class ReviewControllerTest extends TestCase implements Authenticatable
     {
         $user = User::factory()->create();
         $form = Form::create([
-            'code' => 'validCode',
+            'code' => 'ABCDEFGHIJKLMN0123456789',
             'client_id' => 1,
             'status' => 1
         ]);
