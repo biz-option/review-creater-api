@@ -15,7 +15,8 @@ class CreateReview extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->boolean('status');
+            $table->boolean('status')->default(1);
+            $table->string('name')->nullable();
             $table->integer('client_id');
             $table->string('code');
             $table->timestamps();
@@ -23,6 +24,7 @@ class CreateReview extends Migration
         Schema::create('form_questions', function (Blueprint $table) {
             $table->id();
             $table->integer('form_id');
+            $table->boolean('status')->default(1);
             $table->string('question');
             $table->integer('question_type')->default(1); // 1:text, 2:checkbox, 3:radio
             $table->string('question_part_texts')->nullable();
@@ -51,6 +53,9 @@ class CreateReview extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('review');
+        Schema::dropIfExists('forms');
+        Schema::dropIfExists('form_questions');
+        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('review_details');
     }
 }

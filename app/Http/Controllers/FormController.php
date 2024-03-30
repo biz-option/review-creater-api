@@ -12,6 +12,9 @@ class FormController extends Controller
 {
     function get(Request $request, String $formCode) {
         $form = Form::where('code', $formCode)->first();
+        if(!$form) {
+            return response()->json(['message' => 'Form not found'], 404);
+        }
         $formQuestion = FormQuestion::where('form_id', $form->id)->orderBy('sort_order', 'asc')->get();
 
         return response()->json(['form' => $form, 'formQuestions' => $formQuestion], 200);

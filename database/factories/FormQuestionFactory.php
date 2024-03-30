@@ -22,7 +22,7 @@ class FormQuestionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'question_type' => 1, // 1: text, 2: checkbox, 3: radiobutton
         ];
     }
 }
