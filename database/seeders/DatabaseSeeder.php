@@ -17,21 +17,23 @@ class DatabaseSeeder extends Seeder
         \App\Models\FormQuestion::factory()->create([
             'form_id' => $form01->id,
             'question' => 'スタッフの対応はどうでしたか？',
+            'review_format' => '[A]',
             'sort_order' => 1
         ]);
-
         \App\Models\FormQuestion::factory()->create([
             'form_id' => $form01->id,
-            'question' => '美味しかった料理はなんですか？(複数回答化)',
-            'question_type' => 2,
-            'question_part_texts' => '刺身,鍋,揚げ物,天ぷら,炒め物',
+            'question' => 'お店の雰囲気はどうでしたか？',
+            'question_type' => 3,
+            'question_part_texts' => 'よかった,普通,悪い',
+            'review_format' => 'お店の雰囲気は[A]です。',
             'sort_order' => 2
         ]);
         \App\Models\FormQuestion::factory()->create([
             'form_id' => $form01->id,
-            'question' => 'スタッフの対応はどうでしたか？',
-            'question_type' => 3,
-            'question_part_texts' => 'よかった,普通,悪い',
+            'question' => 'おいしかった料理はなんですか？(複数回答化)',
+            'question_type' => 2,
+            'question_part_texts' => '刺身,鍋,揚げ物,天ぷら,炒め物',
+            'review_format' => 'おいしかった料理は[A]でした。',
             'sort_order' => 3
         ]);
     }

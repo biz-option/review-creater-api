@@ -17,8 +17,11 @@ class CreateReview extends Migration
             $table->id();
             $table->boolean('status')->default(1);
             $table->string('name')->nullable();
+            $table->string('desc')->nullable();
             $table->integer('client_id');
             $table->string('code');
+            $table->string('url1')->nullable();
+            $table->string('url2')->nullable();
             $table->timestamps();
         });
         Schema::create('form_questions', function (Blueprint $table) {
@@ -28,6 +31,7 @@ class CreateReview extends Migration
             $table->string('question');
             $table->integer('question_type')->default(1); // 1:text, 2:checkbox, 3:radio
             $table->string('question_part_texts')->nullable();
+            $table->string('review_format')->nullable();
             $table->integer('sort_order')->default(1);
             $table->timestamps();
         });
