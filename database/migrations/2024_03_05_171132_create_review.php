@@ -22,6 +22,8 @@ class CreateReview extends Migration
             $table->string('code');
             $table->string('url1')->nullable();
             $table->string('url2')->nullable();
+            $table->string('intro')->nullable();
+            $table->string('keyword')->nullable();
             $table->timestamps();
         });
         Schema::create('form_questions', function (Blueprint $table) {

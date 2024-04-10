@@ -13,7 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $form01 = \App\Models\Form::factory()->create(['client_id' => 1]);
+        $form01 = \App\Models\Form::factory()->create([
+            'name' => 'sample form name',
+            'desc' => 'フォーム上に入れる案内文を入れる',
+            'client_id' => 1,
+            'intro' => '',
+            'keyword' => ''
+        ]);
         \App\Models\FormQuestion::factory()->create([
             'form_id' => $form01->id,
             'question' => 'スタッフの対応はどうでしたか？',
