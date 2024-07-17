@@ -20,6 +20,7 @@ class CreateReview extends Migration
             $table->string('desc')->nullable();
             $table->integer('client_id');
             $table->string('code');
+            $table->boolean('is_ai')->default(0);
             $table->string('url1')->nullable();
             $table->string('url2')->nullable();
             $table->string('intro')->nullable();
