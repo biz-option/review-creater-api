@@ -40,14 +40,14 @@ class CreateReview extends Migration
         });
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
             $table->integer('form_id');
+            $table->string('message');
             $table->timestamps();
         });
         Schema::create('review_details', function (Blueprint $table) {
             $table->id();
             $table->integer('review_id');
-            $table->string('question');
+            $table->integer('form_question_id');
             $table->string('answer');
             $table->timestamps();
         });

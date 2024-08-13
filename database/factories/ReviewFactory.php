@@ -21,5 +21,10 @@ class ReviewFactory extends Factory
      */
     public function definition()
     {
+        return [
+            'form_id' => $this->faker->numberBetween(1, 10),
+            'message' => $this->faker->text,
+            'created_at' => now(),
+        ];
     }
 }
