@@ -1,0 +1,52 @@
+# 環境変数ファイル
+.env
+.env.local
+.env.production
+
+# 認証情報
+credentials.json
+secrets.yaml
+config/database.yml
+
+# APIキー
+**/api-keys.txt
+
+# ディレクトリ全体を無視
+node_modules/
+.git/
+dist/
+build/
+
+# パターンマッチング
+*.key
+*.pem
+*.p12
+secrets_*
+```
+
+## よく使うパターン
+
+**機密情報を含むファイル:**
+```
+.env*
+*.key
+*.pem
+credentials.*
+secrets.*
+auth-config.*
+```
+
+**依存関係やビルド成果物:**
+```
+node_modules/
+vendor/
+dist/
+build/
+.next/
+```
+
+**ログやキャッシュ:**
+```
+*.log
+.cache/
+tmp/
